@@ -29,8 +29,12 @@ class MyWindow(QMainWindow):
 
         # 钥匙是否插到位
         self.key_is_ready = False
-        # 弹子机是否就为
+        # 钥匙上一次的状态
+        self.key_last_status = False
+        # 弹子机是否就位
         self.marble_machine_is_ready = False
+        # 弹子机上一次的状态
+        self.marble_machine_last_status = False
         # 当前生产的产品
         self.product = ''
 
@@ -71,24 +75,33 @@ class MyWindow(QMainWindow):
             self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
 
     def key_reading(self):
-        if self.siemens.ReadBool('I4.5'):  # 如果钥匙到位(I4.5)
-            if self.key_is_ready:  # 如果之前钥匙已经到位，不做任何处理
+        key_is_ready = self.siemens.ReadBool('I4.5').Content
+        if key_is_ready:  # 如果钥匙到位(I4.5)
+            if self.key_last_status:  # 如果之前钥匙已经到位，不做任何处理
                 pass
             else:  # 如果之前钥匙未到位，则将标志位置为True
                 self.key_is_ready = True
         else:  # 如果钥匙未到位，则将标志位置为False
             self.key_is_ready = False
+        # 将本次的钥匙是否到位传感器的状态作为下一次状态的上一状态
+        self.key_last_status = key_is_ready
 
-        if self.siemens.ReadBool('M3.4'):  # 如果弹子机就位(M3.4)
-            if self.marble_machine_is_ready:  # 如果之前弹子机已经就位，不做任何处理
+        marble_is_ready = self.siemens.ReadBool('M3.4').Content
+        if marble_is_ready:  # 如果弹子机就位(M3.4)
+            if self.marble_machine_last_status:  # 如果之前弹子机已经就位，不做任何处理
                 pass
             else:  # 如果之前弹子机未就位，则将标志位置为True
-                self.key_is_ready = True
+                self.marble_machine_is_ready = True
         else:  # 如果弹子机未就位，则将标志位置为False
             self.marble_machine_is_ready = False
-
+        # 将本次的弹子机是否到位传感器的状态作为下一次状态的上一状态
+        self.marble_machine_last_status = marble_is_ready
+        print(marble_is_ready)
+        print(self.key_is_ready, self.marble_machine_is_ready)
         if self.key_is_ready and self.marble_machine_is_ready:  # 如果钥匙和弹子机都到位，则读取钥匙号
-            self.product = '280B'
+            self.key_is_ready = False
+            self.marble_machine_is_ready = False
+            self.product = '281B'
             keyid = self.get_keyid()
             res, keycode = self.get_keycode(keyid)
             self.Ui_MainWindow.lineEdit.setText(keycode)
@@ -100,6 +113,7 @@ class MyWindow(QMainWindow):
                 self.Ui_MainWindow.label_status.setText('未正确获取钥匙号')
                 self.Ui_MainWindow.label_status.setStyleSheet("background-color: rgb(255, 0, 0);")
                 print('未正确获取钥匙号')
+            print(keyid, keycode)
 
     # 获取弹子号
     def get_keyid(self):
