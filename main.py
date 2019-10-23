@@ -21,6 +21,7 @@ import pyautogui as pag
 from UI2PY.MainWindow import Ui_MainWindow
 from mycode.HslCommunication import SiemensPLCS, SiemensS7Net
 from mycode.config import Config
+from mycode.sato import ComThread
 
 
 class MyWindow(QMainWindow):
@@ -45,10 +46,37 @@ class MyWindow(QMainWindow):
 
         self.siemens = SiemensS7Net(SiemensPLCS.S1200, '192.168.0.1')
         self.conf = Config()
+        self.com = ComThread()
         self.setup()
 
     def setup(self):
-        pass
+        ip_plc = self.conf.read_config(product='config', section='plc', name='ip')
+        _, self.product = self.get_project()
+        self.Ui_MainWindow.lineEdit_product.setText(self.product)
+        self.Ui_MainWindow.lineEdit_IP_PLC.setText(ip_plc)
+
+        self.siemens = SiemensS7Net(SiemensPLCS.S1200, ip_plc)
+        self.Ui_MainWindow.label_status.setText('正在初始化，请稍候...')
+        self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 255, 127);')
+        QApplication.processEvents()
+
+        if self.com.check_com():  # 如果有串口，则打开指定的串口
+            if self.com.open_com() and self.siemens.ConnectServer().IsSuccess:  # 如果串口打开成功且PLC连接成功
+                self.Ui_MainWindow.label_status.setText('初始化完成')
+                self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 255, 127);')
+                self._thread.start()
+            elif not self.com.open_com():  # 如果串口打开失败
+                QMessageBox.critical(self, '错误！', '串口打开失败！')
+                self.Ui_MainWindow.label_status.setText('串口打开失败！')
+                self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
+            else:
+                QMessageBox.critical(self, '错误', 'PLC连接失败！')
+                self.Ui_MainWindow.label_status.setText('PLC连接失败！')
+                self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
+        else:
+            QMessageBox.critical(self, '错误！', '未发现串口！')
+            self.Ui_MainWindow.label_status.setText('未发现串口！')
+            self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
 
     # 槽函数
     def change_ip_plc(self):
@@ -60,7 +88,7 @@ class MyWindow(QMainWindow):
     def test_connect_plc(self):
         self._thread.__del__()
         self._thread.quit()
-        ip_plc = self.conf.read_config(product=self.product, section='plc', name='ip')
+        ip_plc = self.conf.read_config(product='config', section='plc', name='ip')
         self.Ui_MainWindow.lineEdit_IP_PLC.setText(ip_plc)
         self.siemens = SiemensS7Net(SiemensPLCS.S1200, ip_plc)
         self.Ui_MainWindow.label_status.setText('正在连接PLC...')
@@ -100,7 +128,7 @@ class MyWindow(QMainWindow):
         print(marble_is_ready)
         print(self.key_is_ready, self.marble_machine_is_ready)
         if self.key_is_ready and self.marble_machine_is_ready:  # 如果钥匙和弹子机都到位，则读取钥匙号
-            self.Ui_MainWindow.label_status.setText('等待读取钥匙号')
+            self.Ui_MainWindow.label_status.setText('正在读取钥匙号')
             self.Ui_MainWindow.label_status.setStyleSheet("background-color: rgb(255, 255, 127);")
             QApplication.processEvents()
             self.key_is_ready = False
@@ -140,13 +168,13 @@ class MyWindow(QMainWindow):
                 x2, y2 = pag.position()
                 print(pag.position())
         pos_new = str((x1, y1, x2, y2))
-        conf.update_config(section='image_read_area', name='position', value=pos_new)
-        self.ui.scan_le.setFocus()
+        conf.update_config(product='config', section='image_read_area', name='position', value=pos_new)
 
     def show_capture(self):
         self._thread.__del__()
         self._thread.quit()
         img, project = self.get_project()
+        self.Ui_MainWindow.lineEdit_product.setText(project)
         img.show()
 
     # 功能函数
@@ -157,11 +185,10 @@ class MyWindow(QMainWindow):
         res, keycode = self.get_keycode(keyid)
         self.Ui_MainWindow.lineEdit.setText(keycode)
         if res:  # 如果正确获取钥匙号
-            print('打印钥匙号')
+            self.barcode_print(self.product, keycode)
         else:
             self.Ui_MainWindow.label_status.setText('未正确获取钥匙号')
             self.Ui_MainWindow.label_status.setStyleSheet("background-color: rgb(255, 0, 0);")
-            print('未正确获取钥匙号')
 
     def get_keyid(self):
         keyid = ''
@@ -188,13 +215,20 @@ class MyWindow(QMainWindow):
 
     def get_project(self):
         conf = Config()
-        pos = conf.read_config(section="read_area", name="position")
+        pos = eval(conf.read_config(product='config', section="image_read_area", name="position"))
         img = ImageGrab.grab(pos)
         # img.show()
         # img.save("picture2string.jpg")
-        project = pytesseract.image_to_string(img, lang='chi_sim')
+        project = pytesseract.image_to_string(img)
         print(project)
         return img, project
+
+    # 条码打印
+    def barcode_print(self, product, keycode):
+        if product == '280B' or product == '281B' or product == '0开头':
+            barcode_bytes = keycode.encode("utf-8")  # 转换为字节格式
+            send_data = b'\x1bA\x1bN\x1bR\x1bR\x1bH070\x1bV01282\x1bL0202\x1bS\x1bB103080*' + barcode_bytes + b'*\x1bH0200\x1bV01369\x1bL0202\x1bS' + barcode_bytes + b'\x1bQ1\x1bZ'
+        self.com.send_data(send_data)
 
 
 class MyThread(QThread):
