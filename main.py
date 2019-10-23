@@ -104,6 +104,8 @@ class MyWindow(QMainWindow):
             self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
 
     def key_reading(self):
+        # self.Ui_MainWindow.label_status.setText('等待读取钥匙号')
+        # QApplication.processEvents()
         key_is_ready = self.siemens.ReadBool('I4.5').Content
         if key_is_ready:  # 如果钥匙到位(I4.5)
             if self.key_last_status:  # 如果之前钥匙已经到位，不做任何处理
@@ -136,6 +138,9 @@ class MyWindow(QMainWindow):
             self.key_read()
 
     def manual_key_read(self):
+        self.Ui_MainWindow.label_status.setText('正在读取钥匙号')
+        self.Ui_MainWindow.label_status.setStyleSheet("background-color: rgb(255, 255, 127);")
+        QApplication.processEvents()
         self.key_read()
 
     def start(self):
@@ -183,12 +188,14 @@ class MyWindow(QMainWindow):
         _, self.product = self.get_project()
         keyid = self.get_keyid()
         res, keycode = self.get_keycode(keyid)
-        self.Ui_MainWindow.lineEdit.setText(keycode)
         if res:  # 如果正确获取钥匙号
             self.barcode_print(self.product, keycode)
         else:
+            keycode = '----'
             self.Ui_MainWindow.label_status.setText('未正确获取钥匙号')
             self.Ui_MainWindow.label_status.setStyleSheet("background-color: rgb(255, 0, 0);")
+
+        self.Ui_MainWindow.lineEdit.setText(keycode)
 
     def get_keyid(self):
         keyid = ''
@@ -196,8 +203,10 @@ class MyWindow(QMainWindow):
         if read.IsSuccess:  # 如果读取成功
             keys = read.Content[3::4]  # 获取弹子号:从第4个位置开始，每隔4个数读取数据,得到8个弹子号
 
-        for key in keys:
-            keyid += str(key)
+            for key in keys:
+                keyid += str(key)
+        else:
+            keyid = 'XXXXXXXX'
         return keyid
 
     # 获取钥匙号
@@ -219,7 +228,7 @@ class MyWindow(QMainWindow):
         img = ImageGrab.grab(pos)
         # img.show()
         # img.save("picture2string.jpg")
-        project = pytesseract.image_to_string(img)
+        project = pytesseract.image_to_string(img, lang='chi_sim')
         print(project)
         return img, project
 
