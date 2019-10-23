@@ -13,11 +13,15 @@
   <property name="windowTitle">
    <string>条码打印</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../images/images.qrc">
+    <normaloff>:/logo/logo64.ico</normaloff>:/logo/logo64.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label_status">
     <property name="geometry">
      <rect>
-      <x>277</x>
+      <x>230</x>
       <y>377</y>
       <width>571</width>
       <height>101</height>
@@ -57,7 +61,7 @@
     <property name="title">
      <string>操作区</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -166,7 +170,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>314</x>
@@ -266,7 +270,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -357,7 +361,9 @@ color: rgb(200, 194, 15);</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../images/images.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_change_ip</sender>

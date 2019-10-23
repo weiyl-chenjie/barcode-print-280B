@@ -180,7 +180,7 @@ class MyWindow(QMainWindow):
     # 功能函数
     # 获取弹子号
     def key_read(self):
-        self.product = '281B'
+        _, self.product = self.get_project()
         keyid = self.get_keyid()
         res, keycode = self.get_keycode(keyid)
         self.Ui_MainWindow.lineEdit.setText(keycode)
