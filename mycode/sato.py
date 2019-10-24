@@ -18,11 +18,11 @@ class ComThread:
         self.ser = serial.Serial()
         self.conf = Config()
         self.port = self.conf.read_config(product='config', section='printer', name='port')  # 端口号
-        self.baudrate = self.conf.read_config(product='config', section='printer', name='baudrate')  # 波特率
-        self.bytesize = self.conf.read_config(product='config', section='printer', name='bytesize')  # 数据位
+        self.baudrate = int(self.conf.read_config(product='config', section='printer', name='baudrate'))  # 波特率
+        self.bytesize = int(self.conf.read_config(product='config', section='printer', name='bytesize'))  # 数据位
         self.parity = self.conf.read_config(product='config', section='printer', name='parity')  # 奇偶校验
-        self.stopbits = self.conf.read_config(product='config', section='printer', name='stopbits')  # 停止位
-        self.timeout = self.conf.read_config(product='config', section='printer', name='timeout')  # 超时
+        self.stopbits = int(self.conf.read_config(product='config', section='printer', name='stopbits'))  # 停止位
+        self.timeout = int(self.conf.read_config(product='config', section='printer', name='timeout'))  # 超时
         self.data = bytes()  # 存放读取的串口数据
 
     # 检查是否有可用串口
