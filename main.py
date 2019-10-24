@@ -61,17 +61,18 @@ class MyWindow(QMainWindow):
         QApplication.processEvents()
 
         if self.com.check_com():  # 如果有串口，则打开指定的串口
-            if self.com.open_com() and self.siemens.ConnectServer().IsSuccess:  # 如果串口打开成功且PLC连接成功
-                self.Ui_MainWindow.label_status.setText('初始化完成')
-                self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 255, 127);')
-                self._thread.start()
-            elif not self.com.open_com():  # 如果串口打开失败
+            if self.com.open_com():  # 如果串口打开成功
+                if self.siemens.ConnectServer().IsSuccess:  # 如果PLC连接成功
+                    self.Ui_MainWindow.label_status.setText('初始化完成')
+                    self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 255, 127);')
+                    self._thread.start()
+                else:  # 如果PLC连接失败
+                    QMessageBox.critical(self, '错误', 'PLC连接失败！')
+                    self.Ui_MainWindow.label_status.setText('PLC连接失败！')
+                    self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
+            else:  # 如果串口打开失败
                 QMessageBox.critical(self, '错误！', '串口打开失败！')
                 self.Ui_MainWindow.label_status.setText('串口打开失败！')
-                self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
-            else:
-                QMessageBox.critical(self, '错误', 'PLC连接失败！')
-                self.Ui_MainWindow.label_status.setText('PLC连接失败！')
                 self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
         else:
             QMessageBox.critical(self, '错误！', '未发现串口！')
