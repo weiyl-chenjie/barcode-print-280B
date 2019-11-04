@@ -181,6 +181,8 @@ class MyWindow(QMainWindow):
         self._thread.quit()
         img, project = self.get_project()
         self.Ui_MainWindow.lineEdit_product.setText(project)
+        project = pytesseract.image_to_string(img, lang='chi_sim')
+        self.Ui_MainWindow.lineEdit_product.setText(project)
         img.show()
 
     # 功能函数
