@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad14fe5b-4fa2-4ca6-b166-edcaa90e3cd3" name="Default Changelist" comment="" />
+    <list default="true" id="ad14fe5b-4fa2-4ca6-b166-edcaa90e3cd3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,28 +16,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="224" column="26" selection-start-line="224" selection-start-column="26" selection-end-line="224" selection-end-column="26" />
+            <state relative-caret-position="126">
+              <caret line="181" column="19" lean-forward="true" selection-start-line="181" selection-start-column="19" selection-end-line="181" selection-end-column="19" />
               <folding>
                 <element signature="e#78#88#0" expanded="true" />
-                <element signature="e#608#1220#0" />
-                <element signature="e#1316#2930#0" />
-                <element signature="e#2345#2544#0" />
-                <element signature="e#2586#3545#0" />
-                <element signature="e#4216#5670#0" />
-                <element signature="e#5752#5921#0" />
-                <element signature="e#5064#5820#0" />
-                <element signature="e#5851#5901#0" />
-                <element signature="e#5964#6440#0" />
-                <element signature="e#6478#6650#0" />
-                <element signature="e#6656#6662#0" />
-                <element signature="e#7441#7875#0" />
-                <element signature="e#8136#8497#0" />
-                <element signature="e#7519#8036#0" />
-                <element signature="e#8073#8385#0" />
-                <element signature="e#9105#9437#0" />
-                <element signature="e#8417#8730#0" />
-                <element signature="e#8764#9312#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mycode/sato.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="722">
+              <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+              <folding>
+                <element signature="e#86#99#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -55,6 +52,7 @@
       <find>Qmessagebox</find>
       <find>self.pro</find>
       <find>self.product =</find>
+      <find>show</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -82,12 +80,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="barcode-print-280B" type="b2602c69:ProjectViewProjectNode" />
               <item name="barcode-print-280B" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="barcode-print-280B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="barcode-print-280B" type="462c0819:PsiDirectoryNode" />
+              <item name="mycode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="barcode-print-280B" type="b2602c69:ProjectViewProjectNode" />
@@ -123,7 +127,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -222,6 +225,8 @@
       <workItem from="1571110545943" duration="1934000" />
       <workItem from="1571710848905" duration="25894000" />
       <workItem from="1571794714596" duration="10104000" />
+      <workItem from="1571882620928" duration="1361000" />
+      <workItem from="1572833207690" duration="136000" />
     </task>
     <task id="LOCAL-00001" summary="初步完成">
       <created>1571732679743</created>
@@ -279,16 +284,31 @@
       <option name="project" value="LOCAL" />
       <updated>1571807551685</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="添加logo">
+      <created>1571882641885</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1571882641885</updated>
+    </task>
+    <task id="LOCAL-00010" summary="修复初始化bug">
+      <created>1571885656260</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1571885656260</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37932000" />
+    <option name="totallyTimeSpent" value="39429000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2533512" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2600536" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -302,7 +322,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32152975" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3201133" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32956153" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -320,11 +340,12 @@
     <MESSAGE value="添加手动读码" />
     <MESSAGE value="增加打印条形码" />
     <MESSAGE value="添加logo" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加logo" />
+    <MESSAGE value="修复初始化bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复初始化bug" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/barcode_print_280B$sato.coverage" NAME="sato Coverage Results" MODIFIED="1571796585871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mycode" />
-    <SUITE FILE_PATH="coverage/barcode_print_280B$main.coverage" NAME="main Coverage Results" MODIFIED="1571801286969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/barcode_print_280B$main.coverage" NAME="main Coverage Results" MODIFIED="1572833427489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/238701049/PySide2/QtWidgets/QMessageBox.py">
@@ -410,16 +431,6 @@
         <state relative-caret-position="-1026" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mycode/sato.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
-          <folding>
-            <element signature="e#86#99#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/UI2PY/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
@@ -439,28 +450,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="224" column="26" selection-start-line="224" selection-start-column="26" selection-end-line="224" selection-end-column="26" />
+        <state relative-caret-position="126">
+          <caret line="181" column="19" lean-forward="true" selection-start-line="181" selection-start-column="19" selection-end-line="181" selection-end-column="19" />
           <folding>
             <element signature="e#78#88#0" expanded="true" />
-            <element signature="e#608#1220#0" />
-            <element signature="e#1316#2930#0" />
-            <element signature="e#2345#2544#0" />
-            <element signature="e#2586#3545#0" />
-            <element signature="e#4216#5670#0" />
-            <element signature="e#5752#5921#0" />
-            <element signature="e#5064#5820#0" />
-            <element signature="e#5851#5901#0" />
-            <element signature="e#5964#6440#0" />
-            <element signature="e#6478#6650#0" />
-            <element signature="e#6656#6662#0" />
-            <element signature="e#7441#7875#0" />
-            <element signature="e#8136#8497#0" />
-            <element signature="e#7519#8036#0" />
-            <element signature="e#8073#8385#0" />
-            <element signature="e#9105#9437#0" />
-            <element signature="e#8417#8730#0" />
-            <element signature="e#8764#9312#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycode/sato.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+          <folding>
+            <element signature="e#86#99#0" expanded="true" />
           </folding>
         </state>
       </provider>
