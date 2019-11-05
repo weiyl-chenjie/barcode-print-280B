@@ -52,7 +52,6 @@ class MyWindow(QMainWindow):
     def setup(self):
         ip_plc = self.conf.read_config(product='config', section='plc', name='ip')
         _, self.product = self.get_project()
-        self.Ui_MainWindow.lineEdit_product.setText(self.product)
         self.Ui_MainWindow.lineEdit_IP_PLC.setText(ip_plc)
 
         self.siemens = SiemensS7Net(SiemensPLCS.S1200, ip_plc)
@@ -128,8 +127,8 @@ class MyWindow(QMainWindow):
             self.marble_machine_is_ready = False
         # 将本次的弹子机是否到位传感器的状态作为下一次状态的上一状态
         self.marble_machine_last_status = marble_is_ready
-        print(marble_is_ready)
-        print(self.key_is_ready, self.marble_machine_is_ready)
+        # print(marble_is_ready)
+        # print(self.key_is_ready, self.marble_machine_is_ready)
         if self.key_is_ready and self.marble_machine_is_ready:  # 如果钥匙和弹子机都到位，则读取钥匙号
             self.Ui_MainWindow.label_status.setText('正在读取钥匙号')
             self.Ui_MainWindow.label_status.setStyleSheet("background-color: rgb(255, 255, 127);")
@@ -182,7 +181,7 @@ class MyWindow(QMainWindow):
         self._thread.quit()
         img, project = self.get_project()
         self.Ui_MainWindow.lineEdit_product.setText(project)
-        project = pytesseract.image_to_string(img, lang='chi_sim')
+        project = pytesseract.image_to_string(img)
         self.Ui_MainWindow.lineEdit_product.setText(project)
         img.show()
 
@@ -218,7 +217,7 @@ class MyWindow(QMainWindow):
         try:
             with sqlite3.connect('keyid.db') as conn:
                 c = conn.cursor()
-                rows = c.execute("SELECT keycode FROM '%s' WHERE keyid='%s'" % (self.product.upper(), keyid)).fetchall()
+                rows = c.execute("SELECT keycode FROM '%s' WHERE keyid='%s'" % (self.product, keyid)).fetchall()
                 keycode = rows[0][0]
                 return True, keycode
         except Exception as e:
@@ -233,9 +232,10 @@ class MyWindow(QMainWindow):
         img = ImageGrab.grab(pos)
         # img.show()
         # img.save("picture2string.jpg")
-        project = pytesseract.image_to_string(img, lang='chi_sim')
-        print(project)
-        return img, project
+        project = pytesseract.image_to_string(img)
+        self.Ui_MainWindow.lineEdit_product.setText(project)
+        # print(project)
+        return img, project.upper()
 
     # 条码打印
     def barcode_print(self, product, keycode):
@@ -243,6 +243,8 @@ class MyWindow(QMainWindow):
             barcode_bytes = keycode.encode("utf-8")  # 转换为字节格式
             send_data = b'\x1bA\x1bN\x1bR\x1bR\x1bH070\x1bV01282\x1bL0202\x1bS\x1bB103080*' + barcode_bytes + b'*\x1bH0200\x1bV01369\x1bL0202\x1bS' + barcode_bytes + b'\x1bQ1\x1bZ'
         self.com.send_data(send_data)
+        self.Ui_MainWindow.label_status.setText('等待读取钥匙号')
+        self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 255, 127);')
 
 
 class MyThread(QThread):
