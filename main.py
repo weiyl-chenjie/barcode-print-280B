@@ -153,6 +153,7 @@ class MyWindow(QMainWindow):
         if self.siemens.ConnectServer().IsSuccess:  # 如果连接成功
             self.Ui_MainWindow.label_status.setText('等待读取钥匙号')
             self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 255, 127);')
+            self._thread.working = True
             self._thread.start()
         else:
             self.Ui_MainWindow.label_status.setText('PLC连接失败！')
@@ -223,6 +224,7 @@ class MyWindow(QMainWindow):
         except Exception as e:
             self.Ui_MainWindow.label_status.setText('get_keycode:%s' % str(e))
             self.Ui_MainWindow.label_status.setStyleSheet('background-color: rgb(255, 0, 0);')
+            QMessageBox.critical(self, '错误', str(e))
             return False, '----'
 
     def get_project(self):
