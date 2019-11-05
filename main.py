@@ -218,7 +218,7 @@ class MyWindow(QMainWindow):
         try:
             with sqlite3.connect('keyid.db') as conn:
                 c = conn.cursor()
-                rows = c.execute("SELECT keycode FROM '%s' WHERE keyid='%s'" % (self.product, keyid)).fetchall()
+                rows = c.execute("SELECT keycode FROM '%s' WHERE keyid='%s'" % (self.product.upper(), keyid)).fetchall()
                 keycode = rows[0][0]
                 return True, keycode
         except Exception as e:
